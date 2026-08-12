@@ -1,4 +1,13 @@
-Task 1
+# COS214 Practical 2
+
+__Courtesy of__
+
+- Patrick Simuyemba: u25632354
+- Azolile Mbange: u24820360
+
+
+## Task 1
+
 1.1	Movement: MoveStrategy is trying to implement the Strategy design pattern, 
 and it should rather be implemented as the State design pattern. 
 Route: RouteState is trying to implement the State design pattern, 
@@ -25,7 +34,7 @@ implementing the Strategy pattern. The consequence in implementing this is the m
 overhead that will come with adding new subclasses to the Strategy or State interfaces. 
 The misuse creates unnecessary changes to existing classes when extending the system, increasing maintenance.
 Wrong UML Notation: The solid arrow used for the aggregation ‘uses’ relationship in the MoveStrategy 
-relationship is incorrect because it is meant to be a solid line without an arrow. The <<Decorator>> label 
+relationship is incorrect because it is meant to be a solid line without an arrow. The `<<Decorator>>` label 
 is not in a class diagram box, so it is not labelling anything. The maintenance consequence is that the 
 intended pattern/class relationship is unclear.
 Broken ownership or missing virtual destructors: All the Location subclasses inherit from the 
@@ -54,3 +63,88 @@ section of the system. It is difficult to identify each subsystem because of how
 sections are. To improve the diagram, one could separate each subsystem to be evenly spaced around the 
 central GameManager class. I would route the arrows around classes/components and not allow them to 
 overlap with any other component.
+
+## Task 2 : Redesign 
+
+_2.1 Completed_
+
+_2.2 Design rationale_
+
+__Pattern: Decorator__
+
+`Participants:`
+
+- Component: `PlaceFeature` 
+- ConcreteComponent: `Feature`
+- Decorator: `FeatureDecorator`
+- ConcreteDecorator: `Toll, Weather, Quest`
+
+_Decision_
+
+- `FeatureDecorator` owns and deletes the wrapped `PlaceFeature*`. Features can stack in any order without making a new class for every combo.
+
+__Pattern: Composite__
+
+`Participants`
+
+- Component: `Map`
+- Composite: `Region` 
+- Leaf: `Location`
+
+_Decision_
+
+- `Region` owns and deletes its collection of `Map*` pointers. Deleting the root frees the whole map. Clients use one Map interface for both locations and regions.
+
+__Pattern: State__
+`Participants`
+
+- State: `MovementState`
+- Context: `MovementContext`
+- ConcreteState: `Car, Air, Water, Foot`  
+
+_Decision_
+
+- `MovementContext` only talks to abstract `MovementState*`. Each mode is its own class, so movement can change at runtime with no big switch in the context.
+
+__Pattern: Strategy__
+`Participants`
+
+- Strategy: `RouteStrategy`
+- Context: `RouteContext`
+- ConcreteStrategy: `Fastest, Cheapest, Scenic, Shortest`
+
+_Decision_
+
+- `RouteContext` only talks to abstract `RouteStrategy*`. Route algorithms are swappable and we can add more algorithms without changing the context class.
+
+__Pattern: AbstractFactory__
+`Participants`
+
+- AbstractFactory: `WorldBuilder`
+- ConcreteFacotry: `OceanBuilder, DesertBuilder,ForestBuilder, CityBuilder`
+- AbstractProduct: `Npc, Biome, Obstacle`
+- ConcreteProduct: 
+
+    - `DesertBiome, DesertObstacle, DesertNpc`
+    - `OceanBiome, OceanObstacle, OceanNpc`
+    - `ForestBiome, ForestObstacle, ForestNpc`
+    - `CityBiome, CityObstacle, CityNpc`
+
+_Decision_
+ 
+- Each biome factory only creates its own matching products `(e.g. desertNPC + desertBiome + desertObstacle together).` Clients use WorldBuilder and abstract products, so they don’t invent mismatched combos like a desert NPC with an ocean obstacle. Adding a biome means one new factory and its products only.
+
+_2.3 Additons_
+
+- Train (State)
+    - New concrete `MovementState` for travelling by train.
+    - Only a new state class (and its transition rules) is added. `MovementContext` and the other modes stay unchanged.
+
+- safest (Strategy)
+    - New concrete `RouteStrategy` that prefers safer routes.
+    - Only a new strategy class is added; RouteContext still calls the same abstract interface.
+
+- SnowBiome (AbstractFactory)
+    - New SnowBuilder that creates SnowBiome, SnowNpc, and SnowObstacle.
+    - Only that factory and its products are added; existing biome builders stay unchanged.
+
