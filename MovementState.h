@@ -11,7 +11,7 @@ class MovementState
 	virtual ~MovementState();
 	virtual void move(Traveller*)=0;
 	virtual string getMode()=0;
-		
+	
 };
 
 #endif
