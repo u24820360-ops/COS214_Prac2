@@ -1,11 +1,8 @@
 #ifndef TRAVELLER_H
 #define TRAVELLER_H
 
-#include "MovementState.h"
-#include "Map.h"
 #include <string>
-using namespace std; 
-
+class Walk;
 class MovementState;
 class Map;
 
@@ -16,6 +13,7 @@ public:
 	~Traveller();
 	void setState(MovementState *);
 	void move();
+	void selectTravelMode();
 	bool canDash();
 	bool canTeleport();
 	int getTachyons();
@@ -23,13 +21,11 @@ public:
 	void incrementTachyons(int);
 	int getVelocity();
 	void setVelocity(int);
-	void incrementVelocity(int);
-	string getMode();
+	std::string getMode();
 
 private:
 	MovementState *state;
 	int tachyons;
-	int tachyonCores;
 	int velocity;
 	Map *map;
 };

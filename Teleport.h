@@ -1,19 +1,20 @@
 #ifndef TELEPORT_H
 #define TELEPORT_H
+#include <iostream>
+#include <string>
 
-#include "Traveller.h"
 #include "Dash.h"
-#include "Foot.h"
+#include "Walk.h"
 #include "MovementState.h"
-using namespace std;
 class Traveller;
 
 class Teleport : public MovementState
 {
 public:
+	Teleport();
 	~Teleport();
-	virtual void move(Traveller *);
-	virtual string getMode();
+	void move(Traveller *);
+	std::string getMode();
 };
 
 #endif

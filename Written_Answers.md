@@ -86,14 +86,14 @@ __Pattern: Decorator__
 
 `Participants:`
 
-- Component: `PlaceFeature` 
-- ConcreteComponent: `Feature`
+- Component: `Map` 
+- ConcreteComponent: `Location`
 - Decorator: `FeatureDecorator`
 - ConcreteDecorator: `Toll, Weather, Quest`
 
 _Decision_
 
-- `FeatureDecorator` owns and deletes the wrapped `PlaceFeature*`. Features can stack in any order without making a new class for every combo.
+- `FeatureDecorator` owns and deletes the wrapped `Map*`. Features can stack in any order without making a new class for every combination.
 
 __Pattern: Composite__
 
@@ -111,19 +111,19 @@ __Pattern: State__
 `Participants`
 
 - State: `MovementState`
-- Context: `MovementContext`
-- ConcreteState: `Car, Air, Water, Foot`  
+- Context: `Traveller`
+- ConcreteState: `Walk, Dash, Teleport`  
 
 _Decision_
 
-- `MovementContext` only talks to abstract `MovementState*`. Each mode is its own class, so movement can change at runtime with no big switch in the context.
+- `Traveller` only talks to abstract `MovementState*`. Each mode is its own class, so movement can change at runtime with no big switch in the context.
 
 __Pattern: Strategy__
 `Participants`
 
 - Strategy: `RouteStrategy`
 - Context: `RouteContext`
-- ConcreteStrategy: `Fastest, Cheapest, Scenic, Shortest`
+- ConcreteStrategy: `Fastest, Safest, Shortest`
 
 _Decision_
 
@@ -133,7 +133,7 @@ __Pattern: AbstractFactory__
 `Participants`
 
 - AbstractFactory: `WorldBuilder`
-- ConcreteFactory: `OceanBuilder, DesertBuilder,ForestBuilder, CityBuilder`
+- ConcreteFactory: `OceanBuilder, DesertBuilder,ForestBuilder, CityBuilder, NetherBiome`
 - AbstractProduct: `Npc, Biome, Obstacle`
 - ConcreteProduct: 
 
@@ -141,6 +141,7 @@ __Pattern: AbstractFactory__
     - `OceanBiome, OceanObstacle, OceanNpc`
     - `ForestBiome, ForestObstacle, ForestNpc`
     - `CityBiome, CityObstacle, CityNpc`
+    - `NetherBiome, NetherObstacle, NetherNpc`
 
 _Decision_
  
@@ -148,15 +149,15 @@ _Decision_
 
 _2.3 Additions_
 
-- Train (State)
-    - New concrete `MovementState` for travelling by train.
-    - Only a new state class (and its transition rules) is added. `MovementContext` and the other modes stay unchanged.
+- Teleport (State)
+    - New concrete `MovementState` for travelling by disappearing and reappearing in another location.
+    - Only a new state class (and its transition rules) is added. `Traveller` and the other modes stay unchanged.
 
 - safest (Strategy)
     - New concrete `RouteStrategy` that prefers safer routes.
     - Only a new strategy class is added; RouteContext still calls the same abstract interface.
 
-- SnowBiome (AbstractFactory)
+- NetherBiome (AbstractFactory)
     - New SnowBuilder that creates SnowBiome, SnowNpc, and SnowObstacle.
     - Only that factory and its products are added; existing biome builders stay unchanged.
 
