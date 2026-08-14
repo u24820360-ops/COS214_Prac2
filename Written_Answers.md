@@ -160,4 +160,3 @@ _2.3 Additions_
 - NetherBiome (AbstractFactory)
     - New SnowBuilder that creates SnowBiome, SnowNpc, and SnowObstacle.
     - Only that factory and its products are added; existing biome builders stay unchanged.
-

@@ -1,6 +1,6 @@
 flags= -g -std=c++11 -Werror -Wall
 target=wayfarer
-objects=main.o Traveller.o MovementState.o Dash.o Teleport.o Walk.o
+objects=main.o Traveller.o MovementState.o Dash.o Teleport.o Walk.o Location.o Region.o Map.o
 
 Walk.o : Walk.cpp Traveller.h MovementState.h
 	g++ $(flags) -c Walk.cpp
@@ -17,7 +17,7 @@ Traveller.o : MovementState.h Traveller.cpp Traveller.h
 MovementState.o : MovementState.h MovementState.cpp Traveller.h
 	g++ $(flags) -c MovementState.cpp 
 
-main.o : Traveller.h main.cpp
+main.o : Traveller.h main.cpp Location.h Region.h Map.h
 	g++ $(flags) -c main.cpp
 
 $(target) : $(objects)
@@ -34,3 +34,6 @@ run : $(target)
 
 clean : 
 	rm -f *.o $(target) && clear
+
+mem : $(target)
+	valgrind --leak-check=full --log-file=memory_report.txt ./$(target)

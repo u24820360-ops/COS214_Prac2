@@ -27,7 +27,8 @@ private:
 	MovementState *state;
 	int tachyons;
 	int velocity;
-	Map *map;
+	int health;
+	Map *current; // current user map location
 };
 
 #endif
