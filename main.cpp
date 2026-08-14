@@ -3,6 +3,10 @@
 #include "Region.h"
 #include "Map.h"
 #include "Location.h"
+#include "MapDecorator.h"
+#include "FuelStation.h"
+#include "University.h"
+#include "TouristAttraction.h"
 
 #include <vector>
 using namespace std;
@@ -18,6 +22,7 @@ int main()
 		traveller->move();
 	}
 
+	//MAP COMPOSITE
 	Map* earth=new Region("Earth");
 	Map* africa=new Region("Africa");
 	Map* sa=new Region("South Africa");
@@ -50,5 +55,22 @@ int main()
 	
 	delete traveller;
 	traveller=nullptr;
+	
+	
+	//MAP DECORATIOR
+	Map* pretoria=new Region("Pretoria");
+	Map* h1= new Location("Hatefield");
+
+	Map* h2 = new Location("Hilcrest");
+	pretoria->add(h1);
+	pretoria->add(h2);
+	Map* d1=new FuelStation(h1);
+	Map* d2=new University(h2);
+	Map* d3=new TouristAttraction(pretoria);
+	
+	d1->display();
+	d2->display();
+	d3->display();
+	
 	return 0;
 }
