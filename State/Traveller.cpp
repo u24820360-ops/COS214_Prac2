@@ -12,6 +12,7 @@ Traveller::Traveller()
 	this->state=new Walk();
 	this->tachyons=20;
 	this->velocity=1;
+	this->onWater=false;
 }
 
 Traveller::~Traveller() 
@@ -71,3 +72,5 @@ Traveller::~Traveller()
 	{
 		return this->state->getMode();
 	}
+	
+	bool Traveller::canSwim() {return this->onWater;}

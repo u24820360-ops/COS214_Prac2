@@ -22,12 +22,14 @@ public:
 	int getVelocity();
 	void setVelocity(int);
 	std::string getMode();
+	bool canSwim();
 
 private:
 	MovementState *state;
 	int tachyons;
 	int velocity;
 	int health;
+	bool onWater;
 	Map *current; // current user map location
 };
 
