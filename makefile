@@ -1,59 +1,81 @@
-flags= -g -std=c++11 -Werror -Wall
-target=wayfarer
-objects=main.o Traveller.o MovementState.o Dash.o Teleport.o Walk.o \
-	Location.o Region.o Map.o \
-	MapDecorator.o FuelStation.o TouristAttraction.o University.o
+flags = -g -std=c++11 -Werror -Wall \
+	-IState -IComposite -IDecorator -IAbstractFactory
 
-Walk.o : Walk.cpp Walk.h Traveller.h MovementState.h
-	g++ $(flags) -c Walk.cpp
+target = wayfarer
+OBJDIR = build
 
-Dash.o : Dash.cpp Dash.h Traveller.h MovementState.h Teleport.h
-	g++ $(flags) -c Dash.cpp
+objects = \
+	$(OBJDIR)/main.o \
+	$(OBJDIR)/Traveller.o \
+	$(OBJDIR)/MovementState.o \
+	$(OBJDIR)/Walk.o \
+	$(OBJDIR)/Dash.o \
+	$(OBJDIR)/Teleport.o \
+	$(OBJDIR)/Map.o \
+	$(OBJDIR)/Location.o \
+	$(OBJDIR)/Region.o \
+	$(OBJDIR)/MapDecorator.o \
+	$(OBJDIR)/FuelStation.o \
+	$(OBJDIR)/TouristAttraction.o \
+	$(OBJDIR)/University.o
 
-Teleport.o : Teleport.cpp Teleport.h Dash.h Traveller.h MovementState.h
-	g++ $(flags) -c Teleport.cpp
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
-Traveller.o : Traveller.cpp Traveller.h MovementState.h
-	g++ $(flags) -c Traveller.cpp
+# --- root ---
+$(OBJDIR)/main.o: main.cpp | $(OBJDIR)
+	g++ $(flags) -c main.cpp -o $@
 
-MovementState.o : MovementState.cpp MovementState.h Traveller.h
-	g++ $(flags) -c MovementState.cpp
+# --- State ---
+$(OBJDIR)/Traveller.o: State/Traveller.cpp State/Traveller.h | $(OBJDIR)
+	g++ $(flags) -c State/Traveller.cpp -o $@
 
-Map.o : Map.cpp Map.h
-	g++ $(flags) -c Map.cpp
+$(OBJDIR)/MovementState.o: State/MovementState.cpp State/MovementState.h | $(OBJDIR)
+	g++ $(flags) -c State/MovementState.cpp -o $@
 
-Location.o : Location.cpp Location.h Map.h
-	g++ $(flags) -c Location.cpp
+$(OBJDIR)/Walk.o: State/Walk.cpp State/Walk.h | $(OBJDIR)
+	g++ $(flags) -c State/Walk.cpp -o $@
 
-Region.o : Region.cpp Region.h Map.h
-	g++ $(flags) -c Region.cpp
+$(OBJDIR)/Dash.o: State/Dash.cpp State/Dash.h | $(OBJDIR)
+	g++ $(flags) -c State/Dash.cpp -o $@
 
-MapDecorator.o : MapDecorator.cpp MapDecorator.h Map.h
-	g++ $(flags) -c MapDecorator.cpp
+$(OBJDIR)/Teleport.o: State/Teleport.cpp State/Teleport.h | $(OBJDIR)
+	g++ $(flags) -c State/Teleport.cpp -o $@
 
-FuelStation.o : FuelStation.cpp FuelStation.h MapDecorator.h Map.h
-	g++ $(flags) -c FuelStation.cpp
+# --- Composite ---
+$(OBJDIR)/Map.o: Composite/Map.cpp Composite/Map.h | $(OBJDIR)
+	g++ $(flags) -c Composite/Map.cpp -o $@
 
-TouristAttraction.o : TouristAttraction.cpp TouristAttraction.h MapDecorator.h Map.h
-	g++ $(flags) -c TouristAttraction.cpp
+$(OBJDIR)/Location.o: Composite/Location.cpp Composite/Location.h | $(OBJDIR)
+	g++ $(flags) -c Composite/Location.cpp -o $@
 
-University.o : University.cpp University.h MapDecorator.h Map.h
-	g++ $(flags) -c University.cpp
+$(OBJDIR)/Region.o: Composite/Region.cpp Composite/Region.h | $(OBJDIR)
+	g++ $(flags) -c Composite/Region.cpp -o $@
 
-main.o : main.cpp Traveller.h Location.h Region.h Map.h \
-	MapDecorator.h FuelStation.h TouristAttraction.h University.h
-	g++ $(flags) -c main.cpp
+# --- Decorator ---
+$(OBJDIR)/MapDecorator.o: Decorator/MapDecorator.cpp Decorator/MapDecorator.h | $(OBJDIR)
+	g++ $(flags) -c Decorator/MapDecorator.cpp -o $@
 
-$(target) : $(objects)
+$(OBJDIR)/FuelStation.o: Decorator/FuelStation.cpp Decorator/FuelStation.h | $(OBJDIR)
+	g++ $(flags) -c Decorator/FuelStation.cpp -o $@
+
+$(OBJDIR)/TouristAttraction.o: Decorator/TouristAttraction.cpp Decorator/TouristAttraction.h | $(OBJDIR)
+	g++ $(flags) -c Decorator/TouristAttraction.cpp -o $@
+
+$(OBJDIR)/University.o: Decorator/University.cpp Decorator/University.h | $(OBJDIR)
+	g++ $(flags) -c Decorator/University.cpp -o $@
+
+
+$(target): $(objects)
 	g++ $(flags) -o $(target) $(objects)
 
-all : $(target)
+all: $(target)
 
-run : $(target)
+run: $(target)
 	./$(target)
 
-clean :
-	rm -f *.o $(target) && clear
+clean:
+	rm -rf $(OBJDIR) $(target) && clear
 
-mem : $(target)
+mem: $(target)
 	valgrind --leak-check=full --log-file=memory_report.txt ./$(target)
