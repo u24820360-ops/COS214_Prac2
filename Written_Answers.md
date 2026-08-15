@@ -122,3 +122,11 @@ _2.3 Additions_
 
 ## Task 4 : Route finding with Strategy
 
+_4.1_
+- Completed
+
+_4.2_
+- Completed
+
+_4.3_
+- The Strategy's intent is to have a family of algorithms and encapsulate each one, and make them interchangeable. It lets the algorithm vary independently from clients that use it. The State's intent is to allow an object to alter its behaviour when its internal state changes. The object will appear to change its class. Routes are Strategy because different route strategies use different algorithms to calculate the route and choosing a route is interchangeable. Movement is State because an object should be able to change to a different move at runtime. The behaviour changes because the Traveller changes its state/mode. The class diagrams are not interchangeable even though they look alike. They differe in their intent and usage. For the State, the ConcreteState controls the changes where an object will appear to change its class while for the Strategy, the Client will control the change in algorithm used depending on the Context.
