@@ -8,7 +8,7 @@
 class Region : public Map
 {
 public:
-	Region(std::string);
+	Region(std::string, WorldBuilder*);
 	~Region();
 	void add(Map *);
 	void display(std::string);

@@ -1,11 +1,11 @@
-category,suburb,name
-university,Hatfield,UP Hatfield Campus
-university,Mamelodi,UP Mamelodi Campus
-university,Onderstepoort,UP Onderstepoort Campus
-attraction,Groenkloof,Voortrekker Monument
-attraction,Arcadia,Union Buildings
-attraction,Rietvlei,Rietvlei Nature Reserve
-attraction,Menlo Park,Hazel Food Market
-fuel,Hatfield,Sasol Hatfield
-fuel,Hatfield,Shell Varsity Motors
-fuel,Hatfield,Engen Hatfield
+category,suburb,name,factory
+university,Hatfield,UP Hatfield Campus,1
+university,Mamelodi,UP Mamelodi Campus,2
+university,Onderstepoort,UP Onderstepoort Campus,3
+attraction,Groenkloof,Voortrekker Monument,4
+attraction,Arcadia,Union Buildings,5
+attraction,Rietvlei,Rietvlei Nature Reserve,1
+attraction,Menlo Park,Hazel Food Market,3
+fuel,Hatfield,Sasol Hatfield,5
+fuel,Hatfield,Shell Varsity Motors,3
+fuel,Hatfield,Engen Hatfield,1

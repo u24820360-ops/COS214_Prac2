@@ -1,7 +1,7 @@
 #include "Region.h"
 using namespace std;
 
-Region::Region(string name) : Map(name) {}
+Region::Region(string name, WorldBuilder* factory) : Map(name, factory) {}
 
 Region::~Region()
 {
