@@ -6,11 +6,13 @@ OBJDIR = build
 
 objects = \
 	$(OBJDIR)/main.o \
+	$(OBJDIR)/WorldManager.o \
 	$(OBJDIR)/Traveller.o \
 	$(OBJDIR)/MovementState.o \
 	$(OBJDIR)/Walk.o \
 	$(OBJDIR)/Dash.o \
 	$(OBJDIR)/Teleport.o \
+	$(OBJDIR)/Swim.o \
 	$(OBJDIR)/Map.o \
 	$(OBJDIR)/Location.o \
 	$(OBJDIR)/Region.o \
@@ -25,6 +27,9 @@ $(OBJDIR):
 # --- root ---
 $(OBJDIR)/main.o: main.cpp | $(OBJDIR)
 	g++ $(flags) -c main.cpp -o $@
+
+$(OBJDIR)/WorldManager.o: WorldManager.cpp WorldManager.h | $(OBJDIR)
+	g++ $(flags) -c WorldManager.cpp -o $@
 
 # --- State ---
 $(OBJDIR)/Traveller.o: State/Traveller.cpp State/Traveller.h | $(OBJDIR)
@@ -41,6 +46,9 @@ $(OBJDIR)/Dash.o: State/Dash.cpp State/Dash.h | $(OBJDIR)
 
 $(OBJDIR)/Teleport.o: State/Teleport.cpp State/Teleport.h | $(OBJDIR)
 	g++ $(flags) -c State/Teleport.cpp -o $@
+
+$(OBJDIR)/Swim.o: State/Swim.cpp State/Swim.h | $(OBJDIR)
+	g++ $(flags) -c State/Swim.cpp -o $@
 
 # --- Composite ---
 $(OBJDIR)/Map.o: Composite/Map.cpp Composite/Map.h | $(OBJDIR)
@@ -64,7 +72,6 @@ $(OBJDIR)/TouristAttraction.o: Decorator/TouristAttraction.cpp Decorator/Tourist
 
 $(OBJDIR)/University.o: Decorator/University.cpp Decorator/University.h | $(OBJDIR)
 	g++ $(flags) -c Decorator/University.cpp -o $@
-
 
 $(target): $(objects)
 	g++ $(flags) -o $(target) $(objects)

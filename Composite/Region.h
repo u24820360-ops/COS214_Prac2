@@ -12,6 +12,7 @@ public:
 	~Region();
 	void add(Map *);
 	void display(std::string);
+	std::vector<Map*> getChildren();
 
 private:
 std::vector<Map*> children;
