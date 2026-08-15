@@ -17,6 +17,7 @@ void Swim::move(Traveller* traveller)
 		//change the state
 		traveller->setState(new Walk());
 	}
+	traveller->setVelocity(0.0002 + traveller->getVelocity());
 	cout << this->getMode() << endl;	
 }
 

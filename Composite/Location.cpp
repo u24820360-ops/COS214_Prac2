@@ -7,3 +7,4 @@ void Location::display(string indent)
 {
 	cout << indent << "L: " << getName() << endl;
 }
+

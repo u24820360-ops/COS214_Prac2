@@ -21,3 +21,6 @@ void Region::display(string indent)
 	for (Map* child : children)
 		child->display(indent + "\t");   // deeper each level
 }
+
+// Region.cpp — return the real list
+vector<Map*> Region::getChildren() { return children; }

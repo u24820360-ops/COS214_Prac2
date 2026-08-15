@@ -15,11 +15,11 @@ void Walk::move(Traveller* traveller)
 	cout << this->getMode() << endl;
 	traveller->setTachyons(traveller->getTachyons() + 1);
 	traveller->setVelocity(traveller->getVelocity() + 1);
-	if(traveller->canDash()) 
-	{
-		//change the state
-		traveller->setState(new Dash());
-	}
+	// if(traveller->canDash()) 
+	// {
+	// 	//change the state
+	// 	traveller->setState(new Dash());
+	// }
 }
 
 string Walk::getMode() 

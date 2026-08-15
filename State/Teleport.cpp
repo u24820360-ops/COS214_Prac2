@@ -15,6 +15,7 @@ void Teleport::move(Traveller *traveller)
 	//is the user actually able to teleport? if not then dash
 	if (!traveller->canTeleport()) 
 	{
+		cout << traveller->getName() << endl;
 		traveller->setState(new Dash());
 		return;
 	}

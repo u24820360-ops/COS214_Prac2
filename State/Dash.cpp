@@ -24,7 +24,7 @@ void Dash::move(Traveller* traveller)
 	traveller->setTachyons(traveller->getTachyons() - 2);
 	traveller->setTachyons(traveller->getTachyons() + 1);
 	traveller->setVelocity(traveller->getVelocity()*2);
-	
+	//will automatically teleport when they satisfy the 
 	if(traveller->canTeleport()) 
 	{
 		traveller->setState(new Teleport());
