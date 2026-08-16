@@ -73,8 +73,11 @@ void Traveller::print()
 	cout << "Continue " << getMode() << " and explore the vast lands of this world"<< endl;
 	if (current != nullptr)
 	{
-		cout << "You are somewhere called: "<<endl; 
+		cout << "You are somewhere called: "<<endl;
 		current->display();
+		current->getBiome()->generate();
+		current->getNpc()->generate();
+		current->getObstacle()->generate();
 		cout << endl;
 	}
 

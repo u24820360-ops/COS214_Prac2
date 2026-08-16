@@ -25,7 +25,7 @@ Map *WorldManager::createWorld()
 	WorldBuilder *desert = new DesertBuilder();
 	WorldBuilder *ocean = new OceanBuilder();
 	WorldBuilder *nether = new NetherBuilder();
-	Map *world = new Region("Pretoria", city);
+	Map *world = new Region("Pretoria", nullptr);
 	world->add(new University(new Location("UP Hatfield Campus", forest)));
 	world->add(new University(new Location("UP Mamelodi Campus", city)));
 	world->add(new University(new Location("UP Onderstepoort Campus", desert)));
