@@ -18,14 +18,10 @@ Traveller::Traveller(string name)
 
 Traveller::~Traveller()
 {
-	// delete this->map;
-	// this->map=nullptr;
-
-	delete this->state;
-	this->state = nullptr;
+	//map is deleted else where externally
 }
 
-void Traveller::chooseMode()
+int Traveller::chooseMode()
 {
 	cout << "How do you plan to move? " << endl
 		 << "1. Walk " << endl
@@ -41,7 +37,7 @@ void Traveller::chooseMode()
 		if (!this->canDash())
 		{
 			cout << "Not enough tachyons, wallk and collect more to be able to dash" << endl;
-			return;
+			break;
 		}
 		this->setState(new Dash());
 		break;
@@ -49,7 +45,7 @@ void Traveller::chooseMode()
 		if (!this->canTeleport())
 		{
 			cout << "You do no have enough tachyons or your speed is not enough to Teleport" << endl;
-			return;
+			break;
 		}
 		this->setState(new Teleport());
 		break;
@@ -57,7 +53,7 @@ void Traveller::chooseMode()
 		if (!this->canSwim())
 		{
 			cout << "You are not on water" << endl;
-			return;
+			break;
 		}
 		this->setState(new Swim());
 		break;
@@ -65,6 +61,7 @@ void Traveller::chooseMode()
 	default:
 		this->setState(new Walk());
 	}
+	return choice;
 }
 
 // print the travellers current location
@@ -73,9 +70,10 @@ void Traveller::print()
 	cout << name << endl;
 	cout << "Tachyon count: " << this->getTachyons() << endl;
 	cout << "Speed: " << this->getVelocity() << endl;
-	cout << "Mode: " << getMode() << endl;
+	cout << "Continue " << getMode() << " and explore the vast lands of this world"<< endl;
 	if (current != nullptr)
 	{
+		cout << "You are somewhere called: "<<endl; 
 		current->display();
 		cout << endl;
 	}
@@ -139,10 +137,10 @@ string Traveller::getName()
 
 bool Traveller::canSwim() { return this->onWater; }
 
-void Traveller::beginTravel(Map *place)
-{
-	this->current = place;
-}
+// void Traveller::beginTravel(Map *place)
+// {
+// 	this->current = place;
+// }
 Map *Traveller::getLocation()
 {
 	return this->current;

@@ -34,12 +34,13 @@ public:
 	WorldManager();
 	Map *getWorld(); // region where the user can like travell and shoit
 	~WorldManager();
-	bool moveTraveler(Traveller *);
-	void run();
+	void run(Traveller*);
 
 private:
 	// WorldManager();
 	Map *createWorld(); // region where the user can like travell and shoit
+	bool moveTraveler(Traveller *);
+	int promptTraveller(Traveller*);
 	Map *world;
 };
 

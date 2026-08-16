@@ -1,10 +1,7 @@
 #include "WorldManager.h"
-
-using namespace std;
-
 #include "WorldManager.h"
-
 using namespace std;
+
 WorldManager::WorldManager()
 {
 	this->world = this->createWorld();
@@ -21,14 +18,14 @@ Map *WorldManager::getWorld()
 	return this->world;
 }
 
-Map* WorldManager::createWorld()
+Map *WorldManager::createWorld()
 {
-	WorldBuilder* forest = new ForestBuilder();
-	WorldBuilder* city = new CityBuilder();
-	WorldBuilder* desert = new DesertBuilder();
-	WorldBuilder* ocean = new OceanBuilder();
-	WorldBuilder* nether = new NetherBuilder();
-	Map* world = new Region("Pretoria", city);
+	WorldBuilder *forest = new ForestBuilder();
+	WorldBuilder *city = new CityBuilder();
+	WorldBuilder *desert = new DesertBuilder();
+	WorldBuilder *ocean = new OceanBuilder();
+	WorldBuilder *nether = new NetherBuilder();
+	Map *world = new Region("Pretoria", city);
 	world->add(new University(new Location("UP Hatfield Campus", forest)));
 	world->add(new University(new Location("UP Mamelodi Campus", city)));
 	world->add(new University(new Location("UP Onderstepoort Campus", desert)));
@@ -46,21 +43,28 @@ Map* WorldManager::createWorld()
 	delete nether;
 	return world;
 }
-bool WorldManager::moveTraveler(Traveller *t)
+bool WorldManager::moveTraveler(Traveller *traveller)
 {
-	if (t == nullptr || this->world == nullptr)
+	if (traveller == nullptr || this->world == nullptr)
 		return false;
 
 	vector<Map *> places = world->getChildren();
 	if (places.empty())
 		return false;
 
-	Map *here = t->getLocation();
-	cout << "You are at: ";
+	Map *here = traveller->getLocation();
+	cout << "Currently where? : " << endl;
 	if (here != nullptr)
+	{
 		cout << here->getName() << endl;
+		cout << "Are you trying to go somewhere? simply Walk, Dash, Swim or teleport to that location"
+			 << endl
+			 << endl;
+	}
 	else
+	{
 		cout << "nowhere" << endl;
+	}
 
 	for (size_t i = 0; i < places.size(); i++)
 		cout << i << ": " << places[i]->getName() << endl;
@@ -69,9 +73,33 @@ bool WorldManager::moveTraveler(Traveller *t)
 	cin >> choice;
 	if (choice < 0 || choice >= (int)places.size())
 		return false;
-	t->chooseMode();
-	t->setLocation(places[choice]);
-	t->move();	// mode only
-	t->print(); // new place name
+	traveller->chooseMode();
+	traveller->setLocation(places[choice]);
+	traveller->move();	// mode only
+	traveller->print(); // new place name
 	return true;
+}
+
+int WorldManager::promptTraveller(Traveller *traveller)
+{
+	cout << "Select an action to perform" << endl;
+	cout << "1. Quit exploration" << endl
+		 << "2. Continue exploring" << endl;
+
+	string input;
+	cin >> input;
+	return std::stoi(input);
+}
+
+void WorldManager::run(Traveller *traveller)
+{
+	if (traveller)
+	{
+		if (!traveller->getLocation())
+			traveller->setLocation(this->world);
+		while (this->promptTraveller(traveller) == 2)
+		{
+			this->moveTraveler(traveller);
+		}
+	}
 }

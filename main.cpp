@@ -74,11 +74,7 @@ int main()
 	// d3->display();
 	Traveller* tr2=new Traveller("Micheal");
 	WorldManager* world=new WorldManager();
-	tr2->beginTravel(world->getWorld());
-	world->moveTraveler(tr2);
-	world->moveTraveler(tr2);
-	world->moveTraveler(tr2);
-	world->moveTraveler(tr2);
+	world->run(tr2);
 	// world->display();
 	delete world;
 	return 0;
