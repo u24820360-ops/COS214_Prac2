@@ -20,20 +20,26 @@
 #include "Traveller.h"
 #include "Dash.h"
 #include "MovementState.h"
+#include "WorldBuilder.h"
+#include "ForestBuilder.h"
+#include "CityBuilder.h"
+#include "OceanBuilder.h"
+#include "DesertBuilder.h"
+#include "NetherBuilder.h"
 
 class WorldManager
 {
 
 public:
-	WorldManager(std::string);
+	WorldManager();
 	Map *getWorld(); // region where the user can like travell and shoit
 	~WorldManager();
 	bool moveTraveler(Traveller *);
 	void run();
 
 private:
-	WorldManager();
-	Map *createWorld(std::string); // region where the user can like travell and shoit
+	// WorldManager();
+	Map *createWorld(); // region where the user can like travell and shoit
 	Map *world;
 };
 

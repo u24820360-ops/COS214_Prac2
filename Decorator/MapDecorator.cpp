@@ -1,9 +1,8 @@
 #include "MapDecorator.h"
 using namespace std;
 
-MapDecorator::MapDecorator(Map *map) : Map(map->getName())
-{
-	this->map = map;
+MapDecorator::MapDecorator(Map *map):Map(map->getName(), nullptr) {
+	this->map=map;
 }
 
 MapDecorator::~MapDecorator()

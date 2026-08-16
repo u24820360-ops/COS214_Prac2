@@ -9,7 +9,7 @@ class MapDecorator:public Map
 public:
 	MapDecorator(Map *);
 	~MapDecorator();
-	void add(Map *);
+	void add(Map *); //add to region
 	virtual void display(std::string);
 	virtual std::string getName() = 0;
 

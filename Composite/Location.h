@@ -7,9 +7,8 @@
 class Location : public Map
 {
 public:
-	Location(std::string);
+	Location(std::string, WorldBuilder* factory);
 	~Location();
-	void add(Map *);
 	void display(std::string);
 
 private:
