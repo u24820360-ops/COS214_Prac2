@@ -12,6 +12,7 @@ public:
     RouteContext(RouteStrategy* s);
     void setStrategy(RouteStrategy* s);
     void execute();
+    void chooseRoute();
     virtual ~RouteContext();
 };
 
