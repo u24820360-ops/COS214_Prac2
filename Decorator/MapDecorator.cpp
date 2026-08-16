@@ -11,7 +11,7 @@ MapDecorator::~MapDecorator()
 	this->map = nullptr;
 }
 
-void MapDecorator::add(Map *map) { /*Do nothing*/ }
+// void MapDecorator::add(Map *map) { /*Do nothing*/ }
 
 void MapDecorator::display(string indent)
 {

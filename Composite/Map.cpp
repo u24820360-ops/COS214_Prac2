@@ -15,11 +15,9 @@ Map::~Map()
 	delete this->biome;
 	delete this->obstacle;
 }
-void Map::add(Map *) {}
+void Map::add(Map *) {/*Do nothing at all*/}
 string Map::getName() { return this->name; }
-
 vector<Map *> Map::getChildren() { return {}; }
-
 Npc *Map::getNpc() { return this->npc; }
 Biome *Map::getBiome() { return this->biome; }
 Obstacle *Map::getObstacle() { return this->obstacle; }

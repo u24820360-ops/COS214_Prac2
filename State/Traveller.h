@@ -40,7 +40,6 @@ private:
 	std::string name;
 	int tachyons;
 	int velocity;
-	int health;
 	bool onWater;
 	Map* current; // current user map location, Location in a region arranged in a vector
 };
