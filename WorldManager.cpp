@@ -5,9 +5,9 @@ using namespace std;
 #include "WorldManager.h"
 
 using namespace std;
-WorldManager::WorldManager(string csv)
+WorldManager::WorldManager()
 {
-	this->world = this->createWorld(csv);
+	this->world = this->createWorld();
 }
 
 WorldManager::~WorldManager()
@@ -21,46 +21,31 @@ Map *WorldManager::getWorld()
 	return this->world;
 }
 
-Map *WorldManager::createWorld(string csvPath)
+Map* WorldManager::createWorld()
 {
-	ifstream file(csvPath.c_str());
-	if (!file.is_open())
-	{
-		cout << "Could not open " << csvPath << endl;
-		return nullptr;
-	}
-
-	Map *world = new Region("Pretoria");
-
-	string line;
-	getline(file, line); // skip header
-
-	while (getline(file, line))
-	{
-		if (line.empty())
-			continue;
-
-		stringstream ss(line);
-		string category, suburb, name;
-		getline(ss, category, ',');
-		getline(ss, suburb, ',');
-		getline(ss, name);
-
-		Map *place = new Location(name);
-
-		if (category == "university")
-			place = new University(place);
-		else if (category == "fuel")
-			place = new FuelStation(place);
-		else if (category == "attraction")
-			place = new TouristAttraction(place);
-		// street stays a plain Location
-
-		world->add(place);
-	}
+	WorldBuilder* forest = new ForestBuilder();
+	WorldBuilder* city = new CityBuilder();
+	WorldBuilder* desert = new DesertBuilder();
+	WorldBuilder* ocean = new OceanBuilder();
+	WorldBuilder* nether = new NetherBuilder();
+	Map* world = new Region("Pretoria", city);
+	world->add(new University(new Location("UP Hatfield Campus", forest)));
+	world->add(new University(new Location("UP Mamelodi Campus", city)));
+	world->add(new University(new Location("UP Onderstepoort Campus", desert)));
+	world->add(new TouristAttraction(new Location("Voortrekker Monument", ocean)));
+	world->add(new TouristAttraction(new Location("Union Buildings", nether)));
+	world->add(new TouristAttraction(new Location("Rietvlei Nature Reserve", forest)));
+	world->add(new TouristAttraction(new Location("Hazel Food Market", desert)));
+	world->add(new FuelStation(new Location("Sasol Hatfield", nether)));
+	world->add(new FuelStation(new Location("Shell Varsity Motors", desert)));
+	world->add(new FuelStation(new Location("Engen Hatfield", forest)));
+	delete forest;
+	delete city;
+	delete desert;
+	delete ocean;
+	delete nether;
 	return world;
 }
-
 bool WorldManager::moveTraveler(Traveller *t)
 {
 	if (t == nullptr || this->world == nullptr)

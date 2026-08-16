@@ -1,7 +1,10 @@
 #include "TouristAttraction.h"
 using namespace std;
 
-TouristAttraction::TouristAttraction(Map *map) : MapDecorator(map) {}
+TouristAttraction::TouristAttraction(Map *map) :MapDecorator(map)
+{
+	
+}
 TouristAttraction::~TouristAttraction()
 {
 	//nothing?

@@ -9,7 +9,7 @@
 class FuelStation : public MapDecorator
 {
 public:
-    FuelStation(Map *);
+    FuelStation(Map*);
     ~FuelStation();
     void display(std::string indent = "");
     std::string getName();
