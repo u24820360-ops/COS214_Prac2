@@ -9,7 +9,7 @@ using namespace std;
 Traveller::Traveller(string name)
 {
 	this->name = name;
-	// this->map=nullptr;
+	this->current=nullptr;
 	this->state = new Walk();
 	this->tachyons = 20;
 	this->velocity = 1;
@@ -18,7 +18,8 @@ Traveller::Traveller(string name)
 
 Traveller::~Traveller()
 {
-	//map is deleted else where externally
+	delete this->state;
+	// map is deleted else where externally
 }
 
 int Traveller::chooseMode()
@@ -70,14 +71,21 @@ void Traveller::print()
 	cout << name << endl;
 	cout << "Tachyon count: " << this->getTachyons() << endl;
 	cout << "Speed: " << this->getVelocity() << endl;
-	cout << "Continue " << getMode() << " and explore the vast lands of this world"<< endl;
+	cout << "Continue " << getMode() << " and explore the vast lands of this world" << endl;
 	if (current != nullptr)
 	{
-		cout << "You are somewhere called: "<<endl;
+		cout << "You are somewhere called: " << endl;
 		current->display();
-		current->getBiome()->generate();
-		current->getNpc()->generate();
-		current->getObstacle()->generate();
+		// print what biome details for where the user is @
+		Biome *biome = current->getBiome();
+		Npc *npc = current->getNpc();
+		Obstacle *obstacle = current->getObstacle();
+		if (biome)
+			current->getBiome()->generate();
+		if (npc)
+			current->getNpc()->generate();
+		if (obstacle)
+			current->getObstacle()->generate();
 		cout << endl;
 	}
 
@@ -90,7 +98,9 @@ void Traveller::print()
 void Traveller::setState(MovementState *state)
 {
 	delete this->state; // clean
+	if(state)
 	this->state = state;
+	else this->state=new Walk();
 }
 
 void Traveller::move()
@@ -105,7 +115,7 @@ bool Traveller::canDash()
 
 bool Traveller::canTeleport()
 {
-	return this->tachyons >= 3 && this->velocity >= 21;
+	return this->tachyons >= 3 && this->velocity >= 10;
 }
 
 int Traveller::getTachyons()

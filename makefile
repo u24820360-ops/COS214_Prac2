@@ -1,5 +1,5 @@
 flags = -g -std=c++11 -Werror -Wall \
-	-IState -IComposite -IDecorator -IAbstractFactory
+	-IState -IComposite -IDecorator -IAbstractFactory -IStrategy
 
 target = wayfarer
 OBJDIR = build
@@ -39,7 +39,11 @@ objects = \
 	$(OBJDIR)/NetherBuilder.o \
 	$(OBJDIR)/NetherBiome.o \
 	$(OBJDIR)/NetherNpc.o \
-	$(OBJDIR)/NetherObstacle.o
+	$(OBJDIR)/NetherObstacle.o\
+	$(OBJDIR)/RouteContext.o \
+	$(OBJDIR)/Fastest.o \
+	$(OBJDIR)/Shortest.o \
+	$(OBJDIR)/Safest.o
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
@@ -154,6 +158,16 @@ $(OBJDIR)/NetherNpc.o: AbstractFactory/NetherNpc.cpp AbstractFactory/NetherNpc.h
 $(OBJDIR)/NetherObstacle.o: AbstractFactory/NetherObstacle.cpp AbstractFactory/NetherObstacle.h | $(OBJDIR)
 	g++ $(flags) -c AbstractFactory/NetherObstacle.cpp -o $@
 
+# --- Strategy ---
+$(OBJDIR)/RouteContext.o: Strategy/RouteContext.cpp Strategy/RouteContext.h | $(OBJDIR)
+	g++ $(flags) -c Strategy/RouteContext.cpp -o $@
+$(OBJDIR)/Fastest.o: Strategy/Fastest.cpp Strategy/Fastest.h | $(OBJDIR)
+	g++ $(flags) -c Strategy/Fastest.cpp -o $@
+$(OBJDIR)/Shortest.o: Strategy/Shortest.cpp Strategy/Shortest.h | $(OBJDIR)
+	g++ $(flags) -c Strategy/Shortest.cpp -o $@
+$(OBJDIR)/Safest.o: Strategy/Safest.cpp Strategy/Safest.h | $(OBJDIR)
+	g++ $(flags) -c Strategy/Safest.cpp -o $@
+
 $(target): $(objects)
 	g++ $(flags) -o $(target) $(objects)
 
@@ -166,4 +180,4 @@ clean:
 	rm -rf $(OBJDIR) $(target) && clear
 
 mem: $(target)
-	valgrind --leak-check=full --log-file=memory_report.txt ./$(target)
+	valgrind --leak-check=full --show-leak-kinds=all --log-file=memory_report.txt ./$(target)

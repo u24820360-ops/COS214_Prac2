@@ -4,14 +4,16 @@
 #include "Map.h"
 #include <string>
 
-class MapDecorator:public Map
+class MapDecorator : public Map
 {
 public:
 	MapDecorator(Map *);
 	~MapDecorator();
-	void add(Map *); //add to region
 	virtual void display(std::string);
 	virtual std::string getName() = 0;
+	Npc *getNpc();
+	Biome *getBiome();
+	Obstacle *getObstacle();
 
 private:
 	Map *map;

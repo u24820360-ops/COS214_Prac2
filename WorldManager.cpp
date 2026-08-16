@@ -1,5 +1,4 @@
 #include "WorldManager.h"
-#include "WorldManager.h"
 using namespace std;
 
 WorldManager::WorldManager()
@@ -43,7 +42,7 @@ Map *WorldManager::createWorld()
 	delete nether;
 	return world;
 }
-bool WorldManager::moveTraveler(Traveller *traveller)
+bool WorldManager::moveTraveler(Traveller *traveller, RouteContext* rc)
 {
 	if (traveller == nullptr || this->world == nullptr)
 		return false;
@@ -74,6 +73,8 @@ bool WorldManager::moveTraveler(Traveller *traveller)
 	if (choice < 0 || choice >= (int)places.size())
 		return false;
 	traveller->chooseMode();
+	rc->chooseRoute();
+	rc->execute();
 	traveller->setLocation(places[choice]);
 	traveller->move();	// mode only
 	traveller->print(); // new place name
@@ -91,7 +92,7 @@ int WorldManager::promptTraveller(Traveller *traveller)
 	return std::stoi(input);
 }
 
-void WorldManager::run(Traveller *traveller)
+void WorldManager::run(Traveller *traveller, RouteContext* rc)
 {
 	if (traveller)
 	{
@@ -99,7 +100,7 @@ void WorldManager::run(Traveller *traveller)
 			traveller->setLocation(this->world);
 		while (this->promptTraveller(traveller) == 2)
 		{
-			this->moveTraveler(traveller);
+			this->moveTraveler(traveller, rc);
 		}
 	}
 }

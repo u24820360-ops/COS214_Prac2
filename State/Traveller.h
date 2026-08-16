@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-
 class Walk;
 class Swim;
 class Teleport;

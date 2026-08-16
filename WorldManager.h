@@ -26,6 +26,8 @@
 #include "OceanBuilder.h"
 #include "DesertBuilder.h"
 #include "NetherBuilder.h"
+#include "RouteContext.h"
+#include "Fastest.h"
 
 class WorldManager
 {
@@ -34,12 +36,12 @@ public:
 	WorldManager();
 	Map *getWorld(); // region where the user can like travell and shoit
 	~WorldManager();
-	void run(Traveller*);
+	void run(Traveller*, RouteContext*);
 
 private:
 	// WorldManager();
 	Map *createWorld(); // region where the user can like travell and shoit
-	bool moveTraveler(Traveller *);
+	bool moveTraveler(Traveller *, RouteContext*);
 	int promptTraveller(Traveller*);
 	Map *world;
 };

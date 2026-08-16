@@ -16,9 +16,9 @@ public:
 	std::string getName();
 	virtual void display(std::string indent="") = 0;
 	virtual std::vector<Map*> getChildren();
-	Npc* getNpc();
-	Biome* getBiome();
-	Obstacle* getObstacle();
+	virtual Npc* getNpc();
+	virtual Biome* getBiome();
+	virtual Obstacle* getObstacle();
 
 	
 
