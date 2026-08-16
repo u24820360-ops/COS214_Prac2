@@ -4,9 +4,8 @@ cd "$(dirname "$0")"
 ZIPNAME="COS214_Prac2.zip"
 rm -f "$ZIPNAME"
 
-zip -j "$ZIPNAME" makefile \
-  $(find . -path ./build -prune -o \
-      \( -name '*.h' -o -name '*.cpp' \) -print)
+zip -j "$ZIPNAME" $(find . -path ./build -prune -o \( -name '*.h' -o -name '*.cpp' \) -print)
+zip -j "$ZIPNAME" ./makefile
 
 echo "Created $ZIPNAME"
 unzip -l "$ZIPNAME"

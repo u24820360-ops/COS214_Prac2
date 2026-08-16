@@ -87,9 +87,9 @@ int WorldManager::promptTraveller(Traveller *traveller)
 	cout << "1. Quit exploration" << endl
 		 << "2. Continue exploring" << endl;
 
-	string input;
-	cin >> input;
-	return std::stoi(input);
+	int input=1;
+	if(!(cin >> input)) return 1;
+	return input;
 }
 
 void WorldManager::run(Traveller *traveller, RouteContext* rc)
