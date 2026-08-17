@@ -56,15 +56,15 @@ _1.5_
 
 _2.2 Diagram_
 
-![State Diagram](figures/cos214_AbstractFactory.png)\ 
+![Abstract Factory](figures/cos214_AbstractFactory.png)\ 
 
-![State Diagram](figures/_map.png)\ 
+![Composite + Decorator](figures/_map.png)\ 
 
-![State Diagram](figures/_movement.png)\ 
+![State](figures/_movement.png)\ 
 
-![State Diagram](figures/_route.png)\ 
+![Strategy](figures/_route.png)\ 
 
-![State Diagram](figures/_world_manager.png)\ 
+![Everything put together](figures/_world_manager.png)\ 
 
 _2.2 Design rationale_
 
@@ -192,4 +192,6 @@ _6.2 Object Diagram_
 _7.1 Completed_
 
 _7.2 Completed_
+
+_7.3 Completed_
 
