@@ -29,7 +29,6 @@ public:
 	std::string getName();
 	void print();
 	bool canSwim();
-	// void beginTravel(Map*); //give the traveller a starting location for them to travel the word you create in game manager
 	Map* getLocation();
 	void setLocation( Map* );
 

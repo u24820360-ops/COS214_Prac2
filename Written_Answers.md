@@ -1,3 +1,15 @@
+---
+geometry:
+  - top=1in
+  - bottom=1in
+  - left=1in
+  - right=1in
+header-includes:
+  - \usepackage{float}
+  - \makeatletter\def\fps@figure{H}\makeatletter
+---
+
+
 # COS214 Practical 2
 
 __Courtesy of__
@@ -6,9 +18,10 @@ __Courtesy of__
 - Azolile Mbanga: u24820360
 
 
-## Task 1
+## Task 1: Diagnosis of the broken design---
 
 _1.1_
+
 - Movement: MoveStrategy is trying to implement the Strategy design pattern, and it should rather be implemented as the State design pattern. 
 - Route: RouteState is trying to implement the State design pattern, and it should rather be implemented as the Strategy design pattern. 
 - Map: Map is trying to implement the Composite design pattern. 
@@ -17,6 +30,7 @@ _1.1_
 - The two labels that have been swapped is the Strategy and the State. Movement should be done with the State design pattern because an object should be able to change to a different move at runtime. The behaviour changes because the Traveller changes its state/mode. Route should be done with the Strategy design pattern because different route strategies use different algorithms to calculate the route. Choosing a route is interchangeable and changing the strategy changes how a route is calculated not the State of a trip.
 
 _1.2_
+
 - Movement: Under the State pattern, the participants are the Client, Context, State and ConcreteStateN
 - Route: Under the Strategy design pattern, the participants are the Client, Context, Strategy, ConcreteStrategyN
 - Map: Under the Composite design pattern, the participants are the Client, Leaf, Composite, Component
@@ -24,37 +38,50 @@ _1.2_
 - Biomes: Under the Abstract Factory design pattern, the participants are the Client, AbstractFactory, AbstractProduct, ConcreteFactory, ConcreteProduct
 
 _1.3_
+
 - Wrong Pattern Choice: MoveStrategy is implementing the Strategy pattern when it should be implementing the State pattern. RouteState is implementing the State pattern when it should be implementing the Strategy pattern. The consequence in implementing this is the maintenance overhead that will come with adding new subclasses to the Strategy or State interfaces. The misuse creates unnecessary changes to existing classes when extending the system, increasing maintenance.
 - Wrong UML Notation: The solid arrow used for the aggregation ‘uses’ relationship in the MoveStrategy relationship is incorrect because it is meant to be a solid line without an arrow. The `<<Decorator>>` label is not in a class diagram box, so it is not labelling anything. The maintenance consequence is that the intended pattern/class relationship is unclear.
 - Broken ownership or missing virtual destructors: Location has no virtual destructor, so deleting a derived object through a Location pointer can result in undefined behaviour and resources owned by the derived class may not be correctly destroyed. The inheritance relationships with Location are flattened. That creates a maintenance overhead to manage each subclass with each added tag they have in their class name.
 - Excessive Coupling: GameManager is dependent on all 5 subsystems. Changes to any subsystem would require modifications to GameManager, increasing maintenance and reducing extensibility. The separation of responsibilities has been violated. WorldBuilder is tightly coupled with the concrete biome products because its make function contains a giant switch that knows which concrete object to create. Adding a new biome product to the subsystem would require modifications to the WorldBuilder class, increasing maintenance and violating the goal of separating creation from the client.
 
 _1.4_
+
 - The GameManager class is the class that has been made to know everything. Coupling is how much classes depend on each other, and design patterns help to reduce high coupling and unnecessary dependencies by separating responsibilities and allowing components to interact through abstractions. GameManager should not centralise all the behaviour of the system. Each subsystem should manage what belongs to its responsibility. The Region class should own both other regions and the location objects the as Composite participant in that subsystem. The WorldBuilder class should use the AbstractFactory structure, with a ConcreteFactory for each biome responsible for creating that biome’s related products. Movement and Route-finding should have their own Context classes with Traveller and Trip acting as those Context classes.
 
 _1.5_
+
 - Arrows are overlapping the class diagrams and that interference makes it hard to follow where the relationships are and it is confusing to read the names of certain classes. The classes are arranged in a tightly packed manner on one side and then there is lots of white space and another section of the system. It is difficult to identify each subsystem because of how closely packed certain sections are. To improve the diagram, one could separate each subsystem to be evenly spaced around the central GameManager class. I would route the arrows around classes/components and not allow them to overlap with any other component.
 
-## Task 2 : Redesign 
+## Task 2 : Redesign
 
-_2.1 Completed_
+_2.2 Diagram_
+
+![State Diagram](figures/cos214_AbstractFactory.png)\ 
+
+![State Diagram](figures/_map.png)\ 
+
+![State Diagram](figures/_movement.png)\ 
+
+![State Diagram](figures/_route.png)\ 
+
+![State Diagram](figures/_world_manager.png)\ 
 
 _2.2 Design rationale_
 
-__Pattern: Decorator__
+__Pattern: Decorator Pattern__
 
 `Participants:`
 
 - Component: `Map` 
 - ConcreteComponent: `Location`
-- Decorator: `FeatureDecorator`
-- ConcreteDecorator: `Toll, Weather, Quest`
+- Decorator: `MapDecorator`
+- ConcreteDecorator: `University, FuelStation, TouristAttraction`
 
 _Decision_
 
-- `FeatureDecorator` owns and deletes the wrapped `Map*`. Features can stack in any order without making a new class for every combination.
+- `MapDecorator` owns and deletes the wrapped `Map*`. Features can stack in any order without making a new class for every combination.
 
-__Pattern: Composite__
+__Pattern: Composite Pattern__
 
 `Participants`
 
@@ -66,18 +93,18 @@ _Decision_
 
 - `Region` owns and deletes its collection of `Map*` pointers. Deleting the root frees the whole map. Clients use one Map interface for both locations and regions.
 
-__Pattern: State__
+__Pattern: State Pattern__
 `Participants`
 
 - State: `MovementState`
 - Context: `Traveller`
-- ConcreteState: `Walk, Dash, Teleport`  
+- ConcreteState: `Walk, Dash, Teleport, Swim`  
 
 _Decision_
 
 - `Traveller` only talks to abstract `MovementState*`. Each mode is its own class, so movement can change at runtime with no big switch in the context.
 
-__Pattern: Strategy__
+__Pattern: Strategy Pattern__
 `Participants`
 
 - Strategy: `RouteStrategy`
@@ -86,9 +113,10 @@ __Pattern: Strategy__
 
 _Decision_
 
-- `RouteContext` only talks to abstract `RouteStrategy*`. Route algorithms are swappable and we can add more algorithms without changing the context class.
+- `RouteContext` owns a pointer to `RouteStrategy*`. 
+- Route algorithms are swappable and we can add more algorithms without changing the RouteContext class because we don't have a switch or if statement for deciding the route in the context, the context just needs to execute strategy->routing() which will run the appropriate concrete algorithm.
 
-__Pattern: AbstractFactory__
+__Pattern: AbstractFactory Method__
 `Participants`
 
 - AbstractFactory: `WorldBuilder`
@@ -117,16 +145,51 @@ _2.3 Additions_
     - Only a new strategy class is added; RouteContext still calls the same abstract interface.
 
 - NetherBiome (AbstractFactory)
-    - New SnowBuilder that creates SnowBiome, SnowNpc, and SnowObstacle.
+    - New NetherBuilder that creates NetherBiome, NetherNpc, and NetherObstacle.
     - Only that factory and its products are added; existing biome builders stay unchanged.
+
+
+## Task 3 : Movement with State
+
+_3.1 Completed_
+
+_3.2 Completed_
+
+_3.3 State Diagram_
+
+![State Diagram](figures/_task3_state_diagram.png)\ 
+
 
 ## Task 4 : Route finding with Strategy
 
-_4.1_
-- Completed
+_4.1 Completed_
 
-_4.2_
-- Completed
+_4.2 Completed_
 
 _4.3_
+
 - The Strategy's intent is to have a family of algorithms and encapsulate each one, and make them interchangeable. It lets the algorithm vary independently from clients that use it. The State's intent is to allow an object to alter its behaviour when its internal state changes. The object will appear to change its class. Routes are Strategy because different route strategies use different algorithms to calculate the route and choosing a route is interchangeable. Movement is State because an object should be able to change to a different move at runtime. The behaviour changes because the Traveller changes its state/mode. The class diagrams are not interchangeable even though they look alike. They differe in their intent and usage. For the State, the ConcreteState controls the changes where an object will appear to change its class while for the Strategy, the Client will control the change in algorithm used depending on the Context.
+
+## Task 5 : The world map with Composite
+
+_5.1 Completed_
+
+_5.2 Object Diagram_
+
+![Object Diagram](figures/_task5_object.png)\
+
+## Task 6 : Place features with Decorator
+
+_6.1 Completed_
+
+_6.2 Object Diagram_
+
+![Object Diagram](figures/_task6_object.png)\ 
+
+
+## Task 7 : Biomes with Abstract Factory, and intergration
+
+_7.1 Completed_
+
+_7.2 Completed_
+

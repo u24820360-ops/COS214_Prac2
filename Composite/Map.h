@@ -13,7 +13,7 @@ public:
 	Map(std::string, WorldBuilder*);
 	virtual ~Map();
 	virtual void add(Map *);
-	std::string getName();
+	virtual std::string getName();
 	virtual void display(std::string indent="") = 0;
 	virtual std::vector<Map*> getChildren();
 	virtual Npc* getNpc();

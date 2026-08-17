@@ -6,6 +6,7 @@ rm -f "$ZIPNAME"
 
 zip -j "$ZIPNAME" $(find . -path ./build -prune -o \( -name '*.h' -o -name '*.cpp' \) -print)
 zip -j "$ZIPNAME" ./makefile
+zip -j "$ZIPNAME" ./pdf_solutions.pdf
 
 echo "Created $ZIPNAME"
 unzip -l "$ZIPNAME"
